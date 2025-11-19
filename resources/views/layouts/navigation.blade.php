@@ -15,7 +15,25 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    {{-- TAHAP BARU: Link Navigasi Khusus ADMIN --}}
+                    @if (Auth::check() && Auth::user()->role === 'admin')
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+                            {{ __('Manajemen Pengguna') }}
+                        </x-nav-link>
+                    @endif
                 </div>
+
+                @if (Auth::check() && Auth::user()->role === 'admin')
+                    <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+                        {{ __('Manajemen Pengguna') }}
+                    </x-nav-link>
+
+                    {{-- BARU: Link Kategori --}}
+                    <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
+                        {{ __('Manajemen Kategori') }}
+                    </x-nav-link>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->

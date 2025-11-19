@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminCategoryController;
 
 // Halaman Depan (Bisa diakses Guest)
 Route::get('/', function () {
@@ -30,6 +32,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     })->name('dashboard');
     
     // Nanti di sini kita taruh route untuk manage users, categories, dll
+    Route::resource('users', AdminUserController::class);
+    Route::resource('categories', AdminCategoryController::class)->except(['show', 'create']);
+
 });
 
 
