@@ -6,7 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\AdminUserStoreRequest; // Import Form Request untuk Create User
+use App\Http\Requests\AdminUserStoreRequest; 
+use App\Http\Requests\AdminUserUpdateRequest; 
 
 class AdminUserController extends Controller
 {
@@ -71,7 +72,7 @@ class AdminUserController extends Controller
     /**
      * Memperbarui data user di database. (Akan diisi nanti)
      */
-    public function update(Request $request, User $user)
+    public function update(AdminUserUpdateRequest $request, User $user)
     {
         $validated = $request->validated();
         

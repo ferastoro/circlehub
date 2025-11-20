@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Enrollment;
+use Illuminate\Support\Facades\Auth;
+
+class StudentDashboardController extends Controller
+{
+    /**
+     * Menampilkan daftar Course yang diikuti Student dan progresnya.
+     */
+    public function index()
+    {
+        // Ambil semua enrollment yang diikuti oleh user yang sedang login
+        $enrollments = Enrollment::where('user_id', Auth::id())
+                                 ->with('course.teacher', 'course.category')
+                                 ->latest()
+                                 ->paginate(10);
+        
+        return view('student.dashboard', compact('enrollments'));
+    }
+}

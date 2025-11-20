@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth; // Digunakan di accessor
 
 class Enrollment extends Model
 {
@@ -20,5 +22,25 @@ class Enrollment extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    /**
+     * Accessor untuk menghitung progres belajar dalam persentase.
+     */
+    protected function getProgressPercentageAttribute()
+    {
+        $totalLessons = $this->course->contents()->count();
+        
+        if ($totalLessons === 0) {
+            return 0;
+        }
+
+        $completedLessons = LessonProgress::where('user_id', $this->user_id)
+                                          ->whereHas('content', function ($query) {
+                                              $query->where('course_id', $this->course_id);
+                                          })
+                                          ->count();
+        
+        return round(($completedLessons / $totalLessons) * 100);
     }
 }
