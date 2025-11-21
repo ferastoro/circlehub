@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-public-layout>
     <div class="bg-gray-100 min-h-screen">
         {{-- Navbar sederhana untuk Guest --}}
         @include('layouts.public_nav') 
@@ -57,4 +57,4 @@
             </div>
         </footer>
     </div>
-</x-guest-layout>
+</x-public-layout>

@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-public-layout>
     <div class="bg-gray-50 min-h-screen">
         @include('layouts.public_nav') 
 
@@ -80,4 +80,4 @@
 
         @include('layouts.footer')
     </div>
-</x-guest-layout>
+</x-public-layout>

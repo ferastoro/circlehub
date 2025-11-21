@@ -7,7 +7,7 @@
 
             <div class="flex items-center space-x-4">
                 {{-- Link ke Catalog --}}
-                <a href="{{ route('catalog') }}" class="text-gray-600 hover:text-indigo-600 font-medium">Course Catalog</a>
+                <a href="{{ route('catalog') }}" class="text-gray-600 hover:text-indigo-600 font-medium">Course</a>
                 
                 {{-- LOGIKA LOGIN/REGISTER vs DASHBOARD --}}
                 @auth

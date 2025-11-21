@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-public-layout>
     <div class="bg-gray-100 min-h-screen">
         @include('layouts.public_nav') 
 
@@ -63,6 +63,6 @@
             </div>
         </div>
 
-        @include('layouts.footer') {{-- Asumsi kita buat footer terpisah nanti --}}
+        @include('layouts.footer')
     </div>
-</x-guest-layout>
+</x-public-layout>

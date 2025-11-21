@@ -14,6 +14,11 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                // Definisikan warna utama aplikasi kamu
+                'primary-dark': '#4F46E5', // Indigo-600
+                'primary-light': '#818CF8', // Indigo-400
+            },
         },
     },
 
