@@ -10,6 +10,7 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ContentController; // Tambahkan ContentController
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\TeacherDashboardController;
 
 // --- Rute Redirect Dashboard ---
 Route::get('/dashboard', function () {
@@ -43,9 +44,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 // --- GROUP ROUTE TEACHER ---
 Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('teacher.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('dashboard');
     
     // CMS Modul: Course
     Route::resource('courses', CourseController::class);
