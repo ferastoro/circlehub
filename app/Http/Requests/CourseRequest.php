@@ -69,6 +69,7 @@ class CourseRequest extends FormRequest
             'end_date' => ['required', 'date', 'after:start_date'],
             'teacher_id' => $teacherIdRule,
             'status' => $statusRule,
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Maksimal 2MB
         ];
     }
 }

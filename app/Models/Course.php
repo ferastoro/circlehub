@@ -11,7 +11,7 @@ class Course extends Model
 
     protected $fillable = [
         'title', 'slug', 'description', 'start_date', 'end_date', 
-        'teacher_id', 'category_id', 'status'
+        'teacher_id', 'category_id', 'status', 'image_path', 
     ];
 
     // Relasi: Course dimiliki satu Teacher (User)

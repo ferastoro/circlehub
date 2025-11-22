@@ -1,66 +1,48 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard Saya') }}
-        </h2>
-    </x-slot>
+    <h2 class="my-6 text-2xl font-semibold text-gray-700">My Learning Dashboard</h2>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                
-                <h3 class="text-xl font-bold text-gray-800 mb-6">Course yang Anda Ikuti</h3>
-
-                <div class="space-y-6">
-                    @forelse ($enrollments as $enrollment)
-                    <div class="p-4 border rounded-lg shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-50">
-                        
-                        <div class="flex-grow">
-                            <h4 class="text-lg font-bold text-indigo-700">{{ $enrollment->course->title }}</h4>
-                            <p class="text-sm text-gray-600 mt-1">Oleh: {{ $enrollment->course->teacher->name }}</p>
-                            <p class="text-xs text-gray-500">{{ $enrollment->course->category->name }}</p>
-                        </div>
-
-                        <div class="mt-3 md:mt-0 md:ms-4 w-full md:w-1/3">
-                            <p class="text-xs font-semibold mb-1">
-                                Progress: {{ $enrollment->progress_percentage }}%
-                                @if($enrollment->status == 'completed')
-                                    <span class="text-green-600">(Selesai)</span>
-                                @endif
-                            </p>
-                            
-                            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                <div class="bg-indigo-600 h-2.5 rounded-full" style="width: {{ $enrollment->progress_percentage }}%"></div>
-                            </div>
-                            
-                            {{-- Tombol Lanjutkan Course --}}
-                            <div class="mt-3 text-right">
-                                @php
-                                    $firstLesson = $enrollment->course->contents()->orderBy('order_sequence')->first();
-                                @endphp
-
-                                @if ($firstLesson)
-                                    <a href="{{ route('student.lesson.show', [$enrollment->course, $firstLesson]) }}" class="text-sm bg-indigo-500 hover:bg-indigo-600 text-white py-1 px-3 rounded">
-                                        {{ $enrollment->progress_percentage == 100 ? 'Lihat Ulang' : 'Lanjutkan Belajar' }}
-                                    </a>
-                                @else
-                                    <span class="text-sm text-gray-500">Menunggu Materi</span>
-                                @endif
-                            </div>
-                        </div>
-
+    <div class="grid gap-6 mb-8">
+        @forelse ($enrollments as $enrollment)
+        <div class="flex flex-col bg-white rounded-lg shadow-sm border border-gray-100 md:flex-row overflow-hidden">
+            <div class="h-2 md:h-auto md:w-2 bg-indigo-500"></div>
+            <div class="p-6 flex-1">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800 hover:text-indigo-600 transition">
+                            <a href="{{ route('course.show', $enrollment->course->slug) }}">{{ $enrollment->course->title }}</a>
+                        </h4>
+                        <p class="text-sm text-gray-600 mt-1">Mentor: {{ $enrollment->course->teacher->name }}</p>
                     </div>
-                    @empty
-                    <div class="p-6 text-center text-gray-500">
-                        Anda belum terdaftar di course manapun. <a href="{{ route('catalog') }}" class="text-indigo-600 font-medium hover:text-indigo-800">Lihat Course Catalog</a>
-                    </div>
-                    @endforelse
+                    <span class="px-2 py-1 text-xs font-semibold text-indigo-700 bg-indigo-100 rounded-full">{{ $enrollment->course->category->name }}</span>
                 </div>
 
-                <div class="mt-6">
-                    {{ $enrollments->links() }}
+                <div class="mt-4">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-xs font-medium text-gray-500">Progress</span>
+                        <span class="text-xs font-bold text-indigo-600">{{ $enrollment->progress_percentage }}%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-indigo-600 h-2.5 rounded-full" style="width: {{ $enrollment->progress_percentage }}%"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex justify-end">
+                    @php $firstLesson = $enrollment->course->contents()->orderBy('order_sequence')->first(); @endphp
+                    @if($firstLesson)
+                        <a href="{{ route('student.lesson.show', [$enrollment->course, $firstLesson]) }}" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">Continue Learning &rarr;</a>
+                    @endif
                 </div>
             </div>
         </div>
+        @empty
+        <div class="p-8 text-center bg-white rounded-lg shadow-xs">
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Belum ada kursus</h3>
+            <div class="mt-6">
+                <a href="{{ route('catalog') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Browse Catalog</a>
+            </div>
+        </div>
+        @endforelse
     </div>
+    
+    <div class="mt-4">{{ $enrollments->links() }}</div>
 </x-app-layout>

@@ -9,7 +9,8 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 
-                <form method="POST" action="{{ route(Auth::user()->role . '.courses.store') }}">
+                {{-- PERHATIKAN: enctype="multipart/form-data" WAJIB ADA untuk upload file --}}
+                <form method="POST" action="{{ route('teacher.courses.store') }}" enctype="multipart/form-data">
                     @csrf
 
                     <div>
@@ -22,8 +23,7 @@
                         <x-input-label for="category_id" :value="__('Kategori')" />
                         <select id="category_id" name="category_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" required>
                             <option value="">-- Pilih Kategori --</option>
-                            {{-- $categories didapatkan dari CourseController --}}
-                            @foreach ($categories as $category) 
+                            @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
@@ -31,8 +31,14 @@
                         </select>
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
-                    
-                    {{-- Teacher ID (Tidak ditampilkan untuk Teacher, akan otomatis diisi di Request) --}}
+
+                    {{-- 🔥 BARU: Input Upload Gambar Cover --}}
+                    <div class="mt-4">
+                        <x-input-label for="image" :value="__('Gambar Sampul (Cover)')" />
+                        <p class="text-xs text-gray-500 mb-1">Format: JPG, PNG, JPEG. Maks: 2MB.</p>
+                        <input id="image" type="file" name="image" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition" />
+                        <x-input-error :messages="$errors->get('image')" class="mt-2" />
+                    </div>
 
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div>
@@ -54,7 +60,7 @@
                     </div>
 
                     <div class="flex items-center justify-end mt-6">
-                        <a href="{{ route(Auth::user()->role . '.courses.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">Batal</a>
+                        <a href="{{ route('teacher.courses.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">Batal</a>
                         <x-primary-button>
                             {{ __('Simpan Course') }}
                         </x-primary-button>

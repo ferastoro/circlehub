@@ -9,7 +9,7 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 
-                <form method="POST" action="{{ route(Auth::user()->role . '.courses.update', $course) }}">
+                <form method="POST" action="{{ route('teacher.courses.update', $course) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -31,8 +31,23 @@
                         </select>
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
-                    
-                    {{-- Teacher ID tidak ditampilkan di sini karena Teacher hanya bisa mengedit kursus miliknya --}}
+
+                    {{-- 🔥 BARU: Preview & Ganti Gambar --}}
+                    <div class="mt-4">
+                        <x-input-label for="image" :value="__('Ganti Gambar Sampul (Opsional)')" />
+                        
+                        {{-- Tampilkan gambar saat ini jika ada --}}
+                        @if($course->image_path)
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 mb-1">Gambar Saat Ini:</p>
+                                <img src="{{ asset($course->image_path) }}" alt="Current Cover" class="h-32 w-auto rounded-md border border-gray-200 shadow-sm">
+                            </div>
+                        @endif
+
+                        <input id="image" type="file" name="image" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition" />
+                        <p class="text-xs text-gray-500 mt-1">Biarkan kosong jika tidak ingin mengubah gambar.</p>
+                        <x-input-error :messages="$errors->get('image')" class="mt-2" />
+                    </div>
 
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div>
@@ -54,7 +69,7 @@
                     </div>
 
                     <div class="flex items-center justify-end mt-6">
-                        <a href="{{ route(Auth::user()->role . '.courses.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">Batal</a>
+                        <a href="{{ route('teacher.courses.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">Batal</a>
                         <x-primary-button>
                             {{ __('Update Course') }}
                         </x-primary-button>

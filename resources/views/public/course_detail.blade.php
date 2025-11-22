@@ -44,6 +44,17 @@
                         <div class="sticky top-10">
                             <h3 class="text-xl font-bold text-gray-800 mb-4">Informasi Course</h3>
                             
+                            <div class="mb-6 pb-6 border-b border-gray-100">
+                                <p class="text-sm text-gray-500 mb-1">Pengajar</p>
+                                <p class="font-bold text-gray-900">{{ $course->teacher->name }}</p>
+                                
+                                {{-- 🔥 PERBAIKAN: Tombol Hubungi Teacher --}}
+                                <a href="mailto:{{ $course->teacher->email }}?subject=Tanya tentang course {{ $course->title }}" 
+                                class="inline-flex items-center mt-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    Hubungi Teacher
+                                </a>
+                            </div>
                             <p class="text-sm text-gray-600 mb-2">Tanggal Mulai: <span class="font-medium">{{ $course->start_date }}</span></p>
                             <p class="text-sm text-gray-600 mb-4">Tanggal Selesai: <span class="font-medium">{{ $course->end_date }}</span></p>
 

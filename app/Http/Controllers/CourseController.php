@@ -53,7 +53,20 @@ class CourseController extends Controller
      */
     public function store(CourseRequest $request)
     {
-        Course::create($request->validated());
+        // Validasi data sudah dilakukan oleh CourseRequest
+        $validated = $request->validated();
+
+        // Handle Image Upload
+        if ($request->hasFile('image')) {
+            // Simpan file fisik
+            $path = $request->file('image')->store('course-covers', 'public');
+            
+            // 🔥 PENTING: Simpan string 'storage/...' agar konsisten dengan 'images/...'
+            // Hasilnya: 'storage/course-covers/namafile.jpg'
+            $validated['image_path'] = 'storage/' . $path; 
+        }
+        // Buat Course baru dengan data yang sudah divalidasi (termasuk image_path jika ada)
+        Course::create($validated);
 
         /** @var User $user */
         $user = Auth::user();
@@ -94,7 +107,18 @@ class CourseController extends Controller
             abort(403, 'Akses Ditolak.');
         }
         
-        $course->update($request->validated());
+        $validated = $request->validated();
+
+        // Handle Image Upload
+        if ($request->hasFile('image')) {
+            // Simpan file fisik
+            $path = $request->file('image')->store('course-covers', 'public');
+            
+            // 🔥 PENTING: Sama seperti di atas
+            $validated['image_path'] = 'storage/' . $path;
+        }
+
+        $course->update($validated);
 
         return redirect()->route($user->role . '.courses.index')
                          ->with('success', 'Course "' . $course->title . '" berhasil diperbarui.');
