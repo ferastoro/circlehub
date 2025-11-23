@@ -37,4 +37,10 @@ class Course extends Model
     {
         return $this->hasMany(Enrollment::class);
     }
+
+    public function forumPosts()
+    {
+        // Ambil postingan induk saja (bukan balasan), urutkan dari yang terbaru
+        return $this->hasMany(ForumPost::class)->whereNull('parent_id')->latest();
+    }
 }

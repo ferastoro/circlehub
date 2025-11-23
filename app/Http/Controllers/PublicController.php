@@ -60,25 +60,28 @@ class PublicController extends Controller
      */
     public function showCourse(Course $course)
     {
-        $course->load(['teacher', 'category', 'contents']);
-        // Ambil materi pertama (diurutkan)
-        $firstLesson = $course->contents()->orderBy('order_sequence')->first();
-
-        // Cek apakah user sudah enrollment atau belum (untuk tombol Enroll/Lanjutkan)
-        $isEnrolled = false;
-        $progress = null;
-        if (Auth::check()) {
-            $enrollment = $course->enrollments()->where('user_id', Auth::id())->first();
-            if ($enrollment) {
-                $isEnrolled = true;
-                // Kita akan hitung progress di langkah berikutnya
-            }
-        
-            return view('public.course_detail', compact('course', 'isEnrolled', 'firstLesson')); // Tambahkan firstLesson
-        }
-
-        return view('public.course_detail', compact('course', 'isEnrolled'));
+    // Load relationships (Tambahkan 'forumPosts.user' dan 'forumPosts.replies.user')
+    $course->load([
+        'teacher', 
+        'category', 
+        'contents', 
+        'forumPosts.user',          // Load user pengirim pertanyaan
+        'forumPosts.replies.user'   // Load user pengirim balasan
+    ]);
+    
+    // ... (Kode Enrollment Check yang sudah ada biarkan saja) ...
+    $firstLesson = $course->contents()->orderBy('order_sequence')->first();
+    $isEnrolled = false;
+    if (Auth::check()) {
+        $isEnrolled = $course->enrollments()->where('user_id', Auth::id())->exists();
     }
+
+    // Tambahkan pengecekan apakah user adalah guru dari course ini
+    $isTeacher = Auth::check() && $course->teacher_id === Auth::id();
+
+    // Return View (tambahkan isTeacher)
+    return view('public.course_detail', compact('course', 'isEnrolled', 'firstLesson', 'isTeacher'));
+}
 
     public function enrollStore(Course $course)
     {

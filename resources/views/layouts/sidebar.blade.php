@@ -1,13 +1,9 @@
 <div class="py-4 text-gray-500 dark:text-gray-400">
-    {{-- LOGO APLIKASI DENGAN WARNA YANG DIPERBAIKI --}}
-    <a class="ml-6 text-lg font-bold text-indigo-600 dark:text-gray-200 flex items-center" href="{{ route('dashboard') }}">
-        
-        {{-- Menggunakan SVG Inline agar warna 'text-indigo-600' pasti terbaca --}}
-        <svg class="w-8 h-8 mr-2 text-indigo-600 fill-current" viewBox="0 0 317 48" xmlns="http://www.w3.org/2000/svg">
-            <path d="M24.5 48C38.031 48 49 37.2548 49 24C49 10.7452 38.031 0 24.5 0C10.969 0 0 10.7452 0 24C0 37.2548 10.969 48 24.5 48Z"/>
-        </svg>
-        
-        <span class="text-indigo-600 font-extrabold tracking-wide">CircleHub</span>
+    {{-- LOGO SAJA (Tanpa Teks) --}}
+    <a class="ml-6 flex items-center" href="{{ route('dashboard') }}">
+        <img src="{{ asset('images/logo-circlehub.png') }}" 
+             alt="CircleHub" 
+             class="h-12 w-auto object-contain"> {{-- 🔥 UBAH UKURAN DI SINI --}}
     </a>
     
     <ul class="mt-6">
