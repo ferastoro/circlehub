@@ -45,7 +45,7 @@
                 {{-- Header Form --}}
                 <div class="text-center lg:text-left">
                     {{-- Logo Mobile (Hanya muncul di layar kecil) --}}
-                    <img src="{{ asset('images/logo-only-circlehub.png') }}" alt="Logo" class="h-12 w-auto mx-auto lg:hidden mb-6">
+                    <img src="{{ asset('images/logo-circlehub.png') }}" alt="Logo" class="h-12 w-auto mx-auto lg:hidden mb-6">
                     
                     <h2 class="text-3xl font-bold text-gray-900">Selamat Datang Kembali! 👋</h2>
                     <p class="mt-2 text-sm text-gray-600">

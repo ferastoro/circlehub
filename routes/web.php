@@ -64,6 +64,9 @@ Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')
         Route::get('/course/{course}/lesson/{content}', 'showLesson')->name('lesson.show');
         // Rute untuk menandai materi selesai
         Route::post('/course/{course}/lesson/{content}/done', 'markAsDone')->name('lesson.mark_done');
+        // RUTE DOWNLOAD SERTIFIKAT
+        Route::get('/course/{course}/certificate', [App\Http\Controllers\CertificateController::class, 'download'])
+            ->name('certificate.download');
     });
 });
 
