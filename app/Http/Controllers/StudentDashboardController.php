@@ -15,7 +15,7 @@ class StudentDashboardController extends Controller
         // Ambil semua enrollment yang diikuti oleh user yang sedang login
         $enrollments = Enrollment::where('user_id', Auth::id())
                                  ->with('course.teacher', 'course.category')
-                                 ->latest()
+                                 ->orderByDesc('updated_at')
                                  ->paginate(10);
         
         return view('student.dashboard', compact('enrollments'));

@@ -23,7 +23,8 @@ class LessonController extends Controller
         if (!$enrollment) {
             return redirect()->route('course.show', $course->slug)->with('error', 'Anda harus terdaftar di course ini untuk mengakses materi.');
         }
-
+        $enrollment->touch();
+        
         // 2. Ambil semua konten dalam urutan
         $allContents = $course->contents()->orderBy('order_sequence')->get();
         $currentIndex = $allContents->search(function ($item) use ($content) {
