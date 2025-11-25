@@ -279,24 +279,46 @@
                 </div>
 
                 <div class="bg-white rounded-xl shadow-xl p-8">
-                    <form action="#" method="POST" class="space-y-6">
+                    
+                    {{-- 🔥 MENAMPILKAN PESAN SUKSES JIKA ADA --}}
+                    @if(session('success'))
+                        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    {{-- 🔥 UPDATE FORM ACTION & METHOD --}}
+                    <form action="{{ route('contact.send') }}" method="POST" class="space-y-6">
                         @csrf
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                            <input type="text" name="name" id="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 border" placeholder="Nama Anda">
+                            {{-- Tambahkan value="{{ old('name') }}" agar isian tidak hilang jika ada error --}}
+                            <input type="text" name="name" id="name" required 
+                                   value="{{ old('name') }}"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 border" 
+                                   placeholder="Nama Anda">
+                            @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" name="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 border" placeholder="email@contoh.com">
+                            <input type="email" name="email" id="email" required 
+                                   value="{{ old('email') }}"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 border" 
+                                   placeholder="email@contoh.com">
+                            @error('email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         
                         <div>
                             <label for="message" class="block text-sm font-medium text-gray-700">Pesan</label>
-                            <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 border" placeholder="Tulis pesan Anda di sini..."></textarea>
+                            <textarea id="message" name="message" rows="4" required 
+                                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 border" 
+                                      placeholder="Tulis pesan Anda di sini...">{{ old('message') }}</textarea>
+                            @error('message') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         
-                        <button type="button" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                        {{-- 🔥 UBAH TYPE JADI SUBMIT & HAPUS ONCLICK ALERT --}}
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
                             Kirim Pesan
                         </button>
                     </form>

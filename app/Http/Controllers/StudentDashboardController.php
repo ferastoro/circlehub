@@ -20,4 +20,15 @@ class StudentDashboardController extends Controller
         
         return view('student.dashboard', compact('enrollments'));
     }
+
+    public function myCourses()
+    {
+        $enrollments = Enrollment::where('user_id', Auth::id())
+                                 ->with('course.teacher', 'course.category')
+                                 ->latest()
+                                 ->paginate(12); // Tampilkan lebih banyak per halaman
+        
+        return view('student.my_courses', compact('enrollments'));
+    }
+
 }

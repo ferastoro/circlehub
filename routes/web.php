@@ -7,9 +7,10 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PublicController;
-use App\Http\Controllers\ContentController; // Tambahkan ContentController
+use App\Http\Controllers\ContentController; 
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\ContactController; 
 
 // --- Rute Redirect Dashboard ---
 Route::get('/dashboard', function () {
@@ -58,7 +59,7 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')
 // --- GROUP ROUTE STUDENT ---
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
-
+    Route::get('/my-courses', [StudentDashboardController::class, 'myCourses'])->name('my_courses');
     Route::controller(LessonController::class)->group(function () {
         // Rute untuk menampilkan satu materi
         Route::get('/course/{course}/lesson/{content}', 'showLesson')->name('lesson.show');
@@ -93,5 +94,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/courses/{course}/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
     Route::delete('/forum/{post}', [App\Http\Controllers\ForumController::class, 'destroy'])->name('forum.destroy');
 });
+
+Route::post('/contact-us', [ContactController::class, 'send'])->name('contact.send');
 
 require __DIR__.'/auth.php';
