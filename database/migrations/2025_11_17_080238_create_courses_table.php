@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('title'); 
             $table->string('slug')->unique();
             $table->text('description');
+            
+            // 🔥 TAMBAHKAN INI DI SINI
+            $table->string('image_path')->nullable(); 
+
             $table->date("start_date");
             $table->date("end_date");
 
@@ -26,7 +30,6 @@ return new class extends Migration
             
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
-            
         });
     }
 
